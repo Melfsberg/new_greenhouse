@@ -46,10 +46,10 @@ def control_thread():
         systime="%02d" % rtc_time[0] + ":" + "%02d" % rtc_time[1] + ":" "%02d" % rtc_time[2]
         
         if systime in timestr:
-            slinga=timestr.index(systime)
-            cnt[slinga]=str(int(cnt[slinga])+1001)[1:4]
+            slinga=timestr.index(systime)           
             
             if int(dur[slinga])>0:
+                cnt[slinga]=str(int(cnt[slinga])+1001)[1:4]
                 vattna.vattna(int(slinga+1),int(dur[slinga]))
         time.sleep(.1)                        
         
