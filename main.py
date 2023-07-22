@@ -46,12 +46,13 @@ def control_thread():
         systime="%02d" % rtc_time[0] + ":" + "%02d" % rtc_time[1] + ":" "%02d" % rtc_time[2]
         
         if systime in timestr:
-            slinga=timestr.index(systime)           
+            slinga=timestr.index(systime)            
             
             if int(dur[slinga])>0:
-                cnt[slinga]=str(int(cnt[slinga])+1001)[1:4]
                 vattna.vattna(int(slinga+1),int(dur[slinga]))
-        time.sleep(.1)                        
+                cnt[slinga]=str(int(cnt[slinga])+1001)[1:4]
+                
+        time.sleep(.5)                        
         
 def set_default():
     global DEFTIMESTR,DEFDUR,DEFCNT    
@@ -93,13 +94,13 @@ wlan=network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(secrets.ssid,secrets.password)
 
-wait=10
+wait=20
 while wait>0:
     if wlan.status() < 0 or wlan.status() > 3:
         break
     wait -=1
     print('waiting for connection...')
-    time.sleep(.1)
+    time.sleep(.2)
     
 if wlan.status() !=3:
     raise RuntimeError('wifi connection failed')
@@ -109,10 +110,9 @@ else:
     print('IP: ', ip)
 
 _thread.start_new_thread(control_thread,())
-set_time()
 
 def serve(connection):
-    global timestr,dur,cnt
+    global timestr,dur,cnt,systime
     init=True
     i=[0]*12
     
